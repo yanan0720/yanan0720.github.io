@@ -1,0 +1,27 @@
+name: 每日更新
+on:
+  schedule:
+    - cron: '0 22 * * *'  # 北京时间每天 06:00 运行
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: 安装依赖
+        run: pip install requests feedparser
+
+      - name: 抓取并生成今日知识点
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+        run: python3 .github/scripts/generate.py
+
+      - name: 提交更新
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add data.json
+          git commit -m "📖 每日更新 $(date +'%Y-%m-%d')" || echo "无变化"
+          git push
