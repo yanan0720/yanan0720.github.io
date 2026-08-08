@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的每日站</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  h1 {
+    color: #2c3e50;
+    font-size: 28px;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .subtitle {
+    color: #7f8c8d;
+    font-size: 14px;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  .btn-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 340px;
+  }
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 28px 24px;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  }
+  .btn-news {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+  .btn-workout {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+  }
+  .btn-icon {
+    font-size: 28px;
+  }
+  .footer {
+    margin-top: 40px;
+    color: #95a5a6;
+    font-size: 12px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <h1>📖 我的每日站</h1>
+  <p class="subtitle">上班摸鱼学习 · 下班科学运动</p>
+  
+  <div class="btn-container">
+    <a class="btn btn-news" href="https://www.inoreader.com" target="_blank">
+      <span class="btn-icon">📚</span>
+      <span>今日资讯</span>
+    </a>
+    
+    <a class="btn btn-workout" id="workoutBtn" href="#">
+      <span class="btn-icon">🏃</span>
+      <span>今日运动</span>
+    </a>
+  </div>
+  
+  <p class="footer">点击上方按钮开始你的一天</p>
+
+  <script>
+    // 点击"今日运动"按钮，跳转到元宝并预填提示词
+    document.getElementById('workoutBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      var prompt = "我今天体重___kg，腰围___cm，感觉状态___分（1-5分），有___分钟时间运动。请给我推荐今天的跟练方案，要求：\n1. 给我2-3个B站跟练视频的搜索关键词\n2. 每个视频的时长\n3. 总时长要匹配我的可用时间\n4. 我是大基数（需要无跑跳）\n5. 按'热身+主训练+拉伸'分配";
+      
+      // 使用元宝的链接（你也可以换成豆包：https://www.doubao.com 或 DeepSeek：https://chat.deepseek.com）
+      var url = "https://yuanbao.tencent.com/?prompt=" + encodeURIComponent(prompt);
+      window.open(url, '_blank');
+    });
+  </script>
+</body>
+</html>
