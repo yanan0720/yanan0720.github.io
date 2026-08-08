@@ -2,20 +2,22 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>每日站</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
     --black: #0a0a0a;
     --white: #ffffff;
-    --gray-100: #f7f7f7;
-    --gray-200: #ebebeb;
+    --gray-50: #fafafa;
+    --gray-100: #f5f5f5;
+    --gray-200: #e8e8e8;
     --gray-300: #d4d4d4;
     --gray-400: #a3a3a3;
     --gray-500: #737373;
     --gray-600: #525252;
     --gray-700: #404040;
+    --gray-800: #262626;
   }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
@@ -25,195 +27,485 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 48px 24px 32px;
+    padding: 0;
     -webkit-font-smoothing: antialiased;
   }
-  .header { text-align: center; margin-bottom: 48px; }
-  .header h1 {
-    font-size: 22px; font-weight: 700; letter-spacing: 4px;
-    color: var(--black); margin-bottom: 8px;
-  }
-  .header .subtitle {
-    font-size: 12px; color: var(--gray-400); letter-spacing: 1px; font-weight: 300;
-  }
-  .divider {
-    width: 40px; height: 1px; background: var(--black); margin: 0 auto 40px;
-  }
-  .main-btns {
-    display: flex; flex-direction: column; gap: 16px;
-    width: 100%; max-width: 300px; margin-bottom: 48px;
-  }
-  .main-btn {
-    display: flex; align-items: center; justify-content: center; gap: 12px;
-    padding: 18px 24px; border: 1px solid var(--black); border-radius: 0;
-    font-size: 15px; font-weight: 500; letter-spacing: 2px;
-    text-decoration: none; cursor: pointer;
-    background: var(--white); color: var(--black);
-    transition: all 0.25s ease;
-  }
-  .main-btn:hover, .main-btn:active {
-    background: var(--black); color: var(--white);
-  }
-  .section-label {
-    font-size: 11px; color: var(--gray-400); letter-spacing: 3px;
-    text-transform: uppercase; margin-bottom: 20px; text-align: center;
-  }
-  .field-list {
-    display: flex; flex-direction: column; gap: 0;
-    width: 100%; max-width: 300px; margin-bottom: 48px;
-    border-top: 1px solid var(--gray-200);
-  }
-  .field-item {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 4px; border-bottom: 1px solid var(--gray-200);
-    text-decoration: none; color: var(--black);
-    transition: padding 0.2s ease;
-  }
-  .field-item:active { padding-left: 12px; }
-  .field-left { display: flex; align-items: center; gap: 14px; }
-  .field-icon { font-size: 20px; width: 24px; text-align: center; }
-  .field-name { font-size: 15px; font-weight: 400; letter-spacing: 0.5px; }
-  .field-arrow { color: var(--gray-300); font-size: 16px; transition: all 0.2s; }
-  .field-item:active .field-arrow { color: var(--black); transform: translateX(4px); }
 
-  /* 底部弹层 */
-  .form-overlay {
-    display: none; position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.4); z-index: 100;
-    justify-content: center; align-items: flex-end;
+  /* ===== 顶部导航 ===== */
+  .top-bar {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--gray-100);
+    position: sticky;
+    top: 0;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    z-index: 50;
   }
-  .form-overlay.show { display: flex; }
-  .form-sheet {
-    background: var(--white); width: 100%; max-width: 500px;
-    border-radius: 20px 20px 0 0; padding: 28px 24px 36px;
-    max-height: 85vh; overflow-y: auto;
-    animation: slideUp 0.3s ease;
+  .top-bar .logo {
+    font-size: 14px; font-weight: 700; letter-spacing: 3px;
   }
-  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-  .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-  .sheet-title { font-size: 17px; font-weight: 600; letter-spacing: 1px; }
-  .sheet-close {
-    width: 32px; height: 32px; border: none; background: var(--gray-100);
-    border-radius: 50%; font-size: 16px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; color: var(--gray-500);
+  .top-bar .date {
+    font-size: 11px; color: var(--gray-400); letter-spacing: 1px;
   }
-  .form-group { margin-bottom: 18px; }
+
+  /* ===== 主内容区 ===== */
+  .main-content {
+    width: 100%;
+    max-width: 500px;
+    flex: 1;
+    padding: 0 20px 100px;
+  }
+
+  /* ===== Tab 切换 ===== */
+  .tab-bar {
+    display: flex;
+    border-bottom: 1px solid var(--gray-200);
+    margin: 0 -20px 24px;
+    padding: 0 20px;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 14px 0;
+    border: none;
+    background: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-400);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+  }
+  .tab-btn.active {
+    color: var(--black);
+    border-bottom-color: var(--black);
+    font-weight: 600;
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ===== 学习模块 ===== */
+  .subject-bar {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin-bottom: 20px;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .subject-bar::-webkit-scrollbar { display: none; }
+  .subject-chip {
+    flex-shrink: 0;
+    padding: 8px 16px;
+    border: 1px solid var(--gray-200);
+    border-radius: 20px;
+    font-size: 12px;
+    color: var(--gray-500);
+    background: var(--white);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .subject-chip.active {
+    background: var(--black);
+    color: var(--white);
+    border-color: var(--black);
+  }
+
+  .knowledge-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-100);
+    border-radius: 16px;
+    padding: 28px 24px;
+    margin-bottom: 16px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+  }
+  .knowledge-card .card-label {
+    font-size: 10px;
+    color: var(--gray-400);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .knowledge-card h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+  }
+  .knowledge-card .card-subject {
+    font-size: 11px;
+    color: var(--gray-400);
+    margin-bottom: 16px;
+  }
+  .knowledge-card .card-body {
+    font-size: 14px;
+    color: var(--gray-600);
+    line-height: 1.8;
+    flex: 1;
+  }
+  .knowledge-card .card-body p { margin-bottom: 10px; }
+  .knowledge-card .card-body strong { color: var(--black); }
+
+  .knowledge-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .btn-outline {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    background: var(--white);
+    font-size: 13px;
+    color: var(--gray-600);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  .btn-outline:active {
+    background: var(--black);
+    color: var(--white);
+    border-color: var(--black);
+  }
+  .btn-solid {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: var(--black);
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: opacity 0.2s;
+  }
+  .btn-solid:active { opacity: 0.7; }
+
+  .progress-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .progress-track {
+    flex: 1;
+    height: 3px;
+    background: var(--gray-200);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--black);
+    border-radius: 2px;
+    transition: width 0.3s;
+  }
+  .progress-text {
+    font-size: 11px;
+    color: var(--gray-400);
+    white-space: nowrap;
+  }
+
+  /* ===== 运动模块 ===== */
+  .form-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-100);
+    border-radius: 16px;
+    padding: 24px 20px;
+    margin-bottom: 20px;
+  }
+  .form-card .form-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
+  }
+  .form-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .form-row .form-group { flex: 1; margin-bottom: 0; }
+  .form-group { margin-bottom: 12px; }
   .form-group label {
-    display: block; font-size: 12px; color: var(--gray-500);
-    margin-bottom: 6px; font-weight: 400; letter-spacing: 0.5px;
+    display: block;
+    font-size: 11px;
+    color: var(--gray-500);
+    margin-bottom: 5px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
   }
   .form-group input, .form-group select {
-    width: 100%; padding: 12px 14px;
-    border: 1px solid var(--gray-200); border-radius: 10px;
-    font-size: 15px; outline: none;
-    background: var(--gray-100); color: var(--black);
-    transition: border 0.2s, background 0.2s;
-    -webkit-appearance: none; appearance: none;
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    background: var(--white);
+    color: var(--black);
+    -webkit-appearance: none;
+    appearance: none;
+    transition: border 0.2s;
   }
   .form-group input:focus, .form-group select:focus {
-    border-color: var(--black); background: var(--white);
+    border-color: var(--black);
   }
   .form-group select {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='%23737373' stroke-width='1.5'/%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px;
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
   }
-  .btn-submit {
-    width: 100%; padding: 15px; border: none; border-radius: 12px;
-    background: var(--black); color: var(--white);
-    font-size: 15px; font-weight: 500; letter-spacing: 2px;
-    cursor: pointer; margin-top: 8px; transition: opacity 0.2s;
-  }
-  .btn-submit:active { opacity: 0.7; }
 
-  /* 日志 */
-  .log-section { width: 100%; max-width: 300px; }
-  .log-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-  .log-title { font-size: 11px; color: var(--gray-400); letter-spacing: 3px; text-transform: uppercase; }
-  .log-clear {
-    font-size: 11px; color: var(--gray-400); cursor: pointer;
-    background: none; border: none; letter-spacing: 0.5px;
+  /* 方案卡片 */
+  .plan-card {
+    display: none;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 16px;
+    padding: 24px 20px;
+    margin-bottom: 20px;
   }
-  .log-clear:active { color: var(--black); }
-  .log-list { list-style: none; padding: 0; }
+  .plan-card.show { display: block; }
+  .plan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .plan-header .plan-title {
+    font-size: 15px; font-weight: 600;
+  }
+  .plan-header .plan-stage {
+    font-size: 10px;
+    padding: 3px 10px;
+    border: 1px solid var(--gray-300);
+    border-radius: 10px;
+    color: var(--gray-500);
+  }
+  .plan-section { margin-bottom: 14px; }
+  .plan-section-title {
+    font-size: 11px;
+    color: var(--gray-400);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .plan-section-content {
+    font-size: 13px;
+    color: var(--gray-700);
+    line-height: 1.7;
+  }
+  .plan-section-content .tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 8px;
+    background: var(--gray-100);
+    border-radius: 4px;
+    color: var(--gray-500);
+    margin-right: 6px;
+    margin-bottom: 4px;
+  }
+  .video-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--black);
+    text-decoration: none;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--gray-200);
+    margin-right: 16px;
+  }
+  .video-link:active { opacity: 0.6; }
+
+  /* ===== 日志模块 ===== */
+  .log-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-100);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .log-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .log-card-title {
+    font-size: 14px; font-weight: 600;
+  }
+  .log-clear-btn {
+    font-size: 11px; color: var(--gray-400);
+    background: none; border: none; cursor: pointer;
+  }
+  .log-clear-btn:active { color: var(--black); }
+
+  /* 图表区域 */
+  .chart-container {
+    width: 100%;
+    height: 120px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .chart-container canvas { width: 100% !important; height: 120px !important; }
+  .chart-legend {
+    display: flex; gap: 16px; margin-bottom: 16px;
+  }
+  .chart-legend-item {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 11px; color: var(--gray-500);
+  }
+  .legend-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+  }
+  .legend-dot.weight { background: var(--black); }
+  .legend-dot.waist { background: var(--gray-400); }
+
+  .log-list { list-style: none; }
   .log-item {
-    padding: 14px 0; border-bottom: 1px solid var(--gray-200);
-    font-size: 13px; color: var(--gray-600); line-height: 1.7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--gray-100);
+    font-size: 13px;
   }
   .log-item:last-child { border-bottom: none; }
-  .log-date { font-size: 11px; color: var(--gray-400); margin-bottom: 2px; }
-  .log-detail { color: var(--gray-700); }
-  .log-detail strong { color: var(--black); font-weight: 500; }
-  .no-log { color: var(--gray-300); font-size: 13px; text-align: center; padding: 24px 0; }
-  .stage-tag {
-    display: inline-block; font-size: 10px; padding: 2px 8px;
-    border: 1px solid var(--gray-300); border-radius: 10px;
-    color: var(--gray-500); margin-left: 6px;
+  .log-item-left { display: flex; flex-direction: column; gap: 2px; }
+  .log-item-date { font-size: 10px; color: var(--gray-400); }
+  .log-item-detail { color: var(--gray-700); }
+  .log-item-right { text-align: right; }
+  .log-item-stage {
+    font-size: 10px;
+    padding: 2px 8px;
+    border: 1px solid var(--gray-300);
+    border-radius: 8px;
+    color: var(--gray-500);
   }
-  .footer {
-    margin-top: 48px; color: var(--gray-300);
-    font-size: 10px; text-align: center; letter-spacing: 1px;
+  .log-item-duration {
+    font-size: 15px; font-weight: 600; color: var(--black);
+  }
+  .no-log {
+    color: var(--gray-300); font-size: 12px; text-align: center; padding: 20px 0;
+  }
+
+  /* ===== 底部导航 ===== */
+  .bottom-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--white);
+    border-top: 1px solid var(--gray-100);
+    display: flex;
+    z-index: 50;
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+  .bottom-tab {
+    flex: 1;
+    padding: 12px 0;
+    border: none;
+    background: none;
+    font-size: 11px;
+    color: var(--gray-400);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    transition: color 0.2s;
+  }
+  .bottom-tab .tab-icon { font-size: 20px; }
+  .bottom-tab.active { color: var(--black); }
+
+  /* ===== 提示信息 ===== */
+  .hint-text {
+    font-size: 11px; color: var(--gray-400); text-align: center; margin-top: 8px;
   }
 </style>
 </head>
 <body>
-  <div class="header">
-    <h1>每日站</h1>
-    <p class="subtitle">体系化学习 · 阶段化运动</p>
-  </div>
-  <div class="divider"></div>
 
-  <div class="main-btns">
-    <a class="main-btn" href="#learn">
-      <span>📖 今日学习</span>
-    </a>
-    <button class="main-btn" id="showFormBtn">
-      <span>🏃 今日运动</span>
-    </button>
+<!-- 顶部栏 -->
+<div class="top-bar">
+  <span class="logo">每日站</span>
+  <span class="date" id="todayDate"></span>
+</div>
+
+<!-- 主内容 -->
+<div class="main-content">
+
+  <!-- ====== Tab 1: 今日学习 ====== -->
+  <div class="tab-panel active" id="panel-learn">
+
+    <!-- 学科选择 -->
+    <div class="subject-bar" id="subjectBar">
+      <button class="subject-chip active" data-subject="history">历史</button>
+      <button class="subject-chip" data-subject="economy">经济</button>
+      <button class="subject-chip" data-subject="feminism">女性主义</button>
+      <button class="subject-chip" data-subject="culture">文化</button>
+      <button class="subject-chip" data-subject="philosophy">哲学</button>
+    </div>
+
+    <!-- 知识点卡片 -->
+    <div class="knowledge-card" id="knowledgeCard">
+      <div class="card-label">今日知识点</div>
+      <h2 id="kpTitle">—</h2>
+      <div class="card-subject" id="kpSubject">—</div>
+      <div class="card-body" id="kpBody">
+        <p>点击下方按钮获取今日知识点</p>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        <span class="progress-text" id="progressText">0/0</span>
+      </div>
+      <div class="knowledge-actions">
+        <button class="btn-outline" id="prevKpBtn">上一个</button>
+        <button class="btn-solid" id="nextKpBtn">下一个知识点</button>
+      </div>
+    </div>
+
+    <p class="hint-text">知识点来自百度百科精选词条 · 按学科体系排列</p>
   </div>
 
-  <div class="section-label">学习领域</div>
-  <div class="field-list">
-    <a class="field-item" href="https://www.allhistory.com" target="_blank">
-      <div class="field-left"><span class="field-icon">🏛️</span><span class="field-name">历史 / 文化</span></div>
-      <span class="field-arrow">→</span>
-    </a>
-    <a class="field-item" href="https://www.mbalib.com" target="_blank">
-      <div class="field-left"><span class="field-icon">💰</span><span class="field-name">经济 / 管理</span></div>
-      <span class="field-arrow">→</span>
-    </a>
-    <a class="field-item" href="https://baike.baidu.com/item/%E5%A5%B3%E6%80%A7%E4%B8%BB%E4%B9%89/144607" target="_blank">
-      <div class="field-left"><span class="field-icon">🚺</span><span class="field-name">女性主义</span></div>
-      <span class="field-arrow">→</span>
-    </a>
-    <a class="field-item" href="https://github.com/jakegom/weighing-the-world" target="_blank">
-      <div class="field-left"><span class="field-icon">🧠</span><span class="field-name">思维模型</span></div>
-      <span class="field-arrow">→</span>
-    </a>
-  </div>
+  <!-- ====== Tab 2: 今日运动 ====== -->
+  <div class="tab-panel" id="panel-workout">
 
-  <!-- 运动弹层 -->
-  <div class="form-overlay" id="formOverlay">
-    <div class="form-sheet">
-      <div class="sheet-header">
-        <span class="sheet-title">今日运动</span>
-        <button class="sheet-close" id="closeFormBtn">✕</button>
+    <div class="form-card">
+      <div class="form-title">填写今日身体数据</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>体重 (kg)</label>
+          <input type="number" id="weight" placeholder="例如 65" step="0.1">
+        </div>
+        <div class="form-group">
+          <label>腰围 (cm)</label>
+          <input type="number" id="waist" placeholder="例如 80" step="0.1">
+        </div>
       </div>
-      <div class="form-group">
-        <label>体重 (kg)</label>
-        <input type="number" id="weight" placeholder="例如 65" step="0.1">
-      </div>
-      <div class="form-group">
-        <label>腰围 (cm)</label>
-        <input type="number" id="waist" placeholder="例如 80" step="0.1">
-      </div>
-      <div class="form-group">
-        <label>今日状态 (1-5，5 为最累)</label>
-        <input type="number" id="energy" placeholder="例如 3" min="1" max="5">
-      </div>
-      <div class="form-group">
-        <label>可用运动时长 (分钟)</label>
-        <input type="number" id="duration" placeholder="例如 30" min="5">
+      <div class="form-row">
+        <div class="form-group">
+          <label>今日状态 (1-5)</label>
+          <input type="number" id="energy" placeholder="5=最累" min="1" max="5">
+        </div>
+        <div class="form-group">
+          <label>运动时长 (分钟)</label>
+          <input type="number" id="duration" placeholder="例如 30" min="5">
+        </div>
       </div>
       <div class="form-group">
         <label>当前阶段</label>
@@ -223,93 +515,533 @@
           <option value="提升">提升 — 高强度挑战</option>
         </select>
       </div>
-      <button class="btn-submit" id="generatePlanBtn">生成方案</button>
+      <button class="btn-solid" id="generatePlanBtn" style="width:100%; margin-top:8px; padding:14px;">生成今日方案</button>
+    </div>
+
+    <!-- 方案展示区 -->
+    <div class="plan-card" id="planCard">
+      <div class="plan-header">
+        <span class="plan-title" id="planTitle">今日运动方案</span>
+        <span class="plan-stage" id="planStage">—</span>
+      </div>
+
+      <div class="plan-section">
+        <div class="plan-section-title">🔥 热身 (5分钟)</div>
+        <div class="plan-section-content" id="planWarmup">—</div>
+      </div>
+      <div class="plan-section">
+        <div class="plan-section-title">💪 主训练</div>
+        <div class="plan-section-content" id="planMain">—</div>
+        <div style="margin-top:10px;" id="planVideos"></div>
+      </div>
+      <div class="plan-section">
+        <div class="plan-section-title">🧘 拉伸 (5分钟)</div>
+        <div class="plan-section-content" id="planStretch">—</div>
+      </div>
+
+      <div class="knowledge-actions" style="margin-top:16px;">
+        <button class="btn-outline" id="copyPlanBtn">复制方案</button>
+        <button class="btn-solid" id="openBiliBtn">去B站搜索</button>
+      </div>
+    </div>
+
+    <p class="hint-text">方案根据你的阶段自动调整 · 无跑跳保护膝盖</p>
+  </div>
+
+  <!-- ====== Tab 3: 成长记录 ====== -->
+  <div class="tab-panel" id="panel-log">
+
+    <div class="log-card">
+      <div class="log-card-header">
+        <span class="log-card-title">数据趋势</span>
+        <button class="log-clear-btn" id="clearLogBtn">清空记录</button>
+      </div>
+      <div class="chart-container">
+        <canvas id="trendChart"></canvas>
+      </div>
+      <div class="chart-legend">
+        <div class="chart-legend-item"><div class="legend-dot weight"></div>体重 (kg)</div>
+        <div class="chart-legend-item"><div class="legend-dot waist"></div>腰围 (cm)</div>
+      </div>
+    </div>
+
+    <div class="log-card">
+      <div class="log-card-header">
+        <span class="log-card-title">运动记录</span>
+      </div>
+      <ul class="log-list" id="logList">
+        <li class="no-log">暂无记录，去运动吧！</li>
+      </ul>
     </div>
   </div>
 
-  <!-- 运动日志 -->
-  <div class="log-section">
-    <div class="log-header">
-      <span class="log-title">运动日志</span>
-      <button class="log-clear" id="clearLogBtn">清空</button>
-    </div>
-    <ul class="log-list" id="logList">
-      <li class="no-log">暂无记录</li>
-    </ul>
-  </div>
+</div>
 
-  <p class="footer">每天一点 · 见证成长</p>
+<!-- 底部导航 -->
+<div class="bottom-bar">
+  <button class="bottom-tab active" data-tab="learn">
+    <span class="tab-icon">📖</span>
+    <span>学习</span>
+  </button>
+  <button class="bottom-tab" data-tab="workout">
+    <span class="tab-icon">🏃</span>
+    <span>运动</span>
+  </button>
+  <button class="bottom-tab" data-tab="log">
+    <span class="tab-icon">📊</span>
+    <span>记录</span>
+  </button>
+</div>
 
-  <script>
-    var overlay = document.getElementById('formOverlay');
-    document.getElementById('showFormBtn').addEventListener('click', function() {
-      overlay.classList.add('show');
-    });
-    document.getElementById('closeFormBtn').addEventListener('click', function() {
-      overlay.classList.remove('show');
-    });
-    overlay.addEventListener('click', function(e) {
-      if (e.target === overlay) overlay.classList.remove('show');
-    });
+<script>
+// ===== 日期显示 =====
+(function() {
+  var now = new Date();
+  var days = ['周日','周一','周二','周三','周四','周五','周六'];
+  var str = now.getFullYear() + '.' + String(now.getMonth()+1).padStart(2,'0') + '.' + String(now.getDate()).padStart(2,'0') + ' ' + days[now.getDay()];
+  document.getElementById('todayDate').textContent = str;
+})();
 
-    function loadLogs() {
-      try { return JSON.parse(localStorage.getItem('workout_logs') || '[]'); }
-      catch(e) { return []; }
+// ===== Tab 切换 =====
+var tabBtns = document.querySelectorAll('.bottom-tab');
+var panels = {
+  learn: document.getElementById('panel-learn'),
+  workout: document.getElementById('panel-workout'),
+  log: document.getElementById('panel-log')
+};
+tabBtns.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var tab = btn.dataset.tab;
+    tabBtns.forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    Object.keys(panels).forEach(function(k) {
+      panels[k].classList.remove('active');
+    });
+    panels[tab].classList.add('active');
+    if (tab === 'log') renderLog();
+  });
+});
+
+// ===== 知识点数据库 =====
+// 按学科体系排列，每个学科10个知识点，从入门到进阶
+var knowledgeDB = {
+  history: [
+    { title: '夏商周三代', body: '<p><strong>夏朝</strong>（约前2070-前1600）是中国传说中第一个王朝，但考古证据有限，至今仍存在争议。</p><p><strong>商朝</strong>（前1600-前1046）是有确凿考古证据的朝代，甲骨文是其最重要的文化遗产，证明当时已有成熟的文字系统。</p><p><strong>周朝</strong>（前1046-前256）分西周和东周，东周又分春秋和战国。周朝确立了"分封制"和"宗法制"，奠定了中国古代政治的基本框架。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心概念：分封制 = 天子把土地分给诸侯，诸侯效忠天子</p>' },
+    { title: '春秋五霸与战国七雄', body: '<p>春秋时期（前770-前476），周天子名存实亡，各诸侯国争霸。<strong>春秋五霸</strong>通常指：齐桓公、晋文公、楚庄王、吴王阖闾、越王勾践。</p><p>战国时期（前475-前221），大鱼吃小鱼，剩下<strong>七个强国</strong>：齐、楚、燕、韩、赵、魏、秦，史称"战国七雄"。</p><p>最终<strong>秦国</strong>通过商鞅变法强大起来，由秦始皇统一六国，建立中国第一个中央集权帝国。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 关键转折：商鞅变法 → 秦国的军事和农业效率碾压六国</p>' },
+    { title: '秦始皇与中央集权', body: '<p>秦始皇（前259-前210）统一六国后，做了几件影响中国两千年的事：</p><p>1. <strong>废分封，设郡县</strong>：不再把土地分给亲戚，而是由皇帝直接任命官员管理。</p><p>2. <strong>统一度量衡、文字、货币</strong>：让全中国人"说同一种语言、用同一套标准"。</p><p>3. <strong>修长城、驰道</strong>：军事防御和交通网络。</p><p>4. <strong>焚书坑儒</strong>：控制思想，但也因此被后世儒家长期批评。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心遗产：郡县制 → 一直沿用到今天的中国行政区划</p>' },
+    { title: '汉武帝与独尊儒术', body: '<p>汉武帝（前156-前87）是西汉最强势的皇帝之一。他做了三件大事：</p><p>1. <strong>罢黜百家，独尊儒术</strong>：确立儒家思想为官方意识形态，影响中国两千年的价值观。</p><p>2. <strong>推恩令</strong>：巧妙削弱诸侯王势力，加强中央集权。</p><p>3. <strong>开疆拓土</strong>：派卫青、霍去病北击匈奴，打通西域丝绸之路。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 深远影响：从此"儒生"成为中国的统治精英阶层</p>' },
+    { title: '唐朝的开放与繁荣', body: '<p>唐朝（618-907）是中国历史上最开放、最自信的朝代之一。</p><p><strong>政治</strong>：完善科举制，寒门子弟也能当官，打破了贵族垄断。</p><p><strong>经济</strong>：长安是世界最大城市之一，丝绸之路贸易繁荣，胡商遍布。</p><p><strong>文化</strong>：诗歌达到巅峰（李白、杜甫、白居易），女性地位相对较高（如武则天称帝）。</p><p><strong>宗教</strong>：佛教、道教、景教、伊斯兰教并存，玄奘西行取经。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心特征：包容 + 自信 = 盛世的密码</p>' },
+    { title: '宋朝的文治与商业革命', body: '<p>宋朝（960-1279）被很多史学家认为是中国历史上<strong>最"现代"的朝代</strong>。</p><p>1. <strong>重文轻武</strong>：文人地位空前高，武将受压制（杯酒释兵权）。</p><p>2. <strong>商业革命</strong>：出现了世界上最早的纸币"交子"，城市经济极度繁荣。</p><p>3. <strong>科技高峰</strong>：活字印刷（毕昇）、指南针用于航海、火药武器化。</p><p>4. <strong>市民文化</strong>：瓦舍勾栏（娱乐场所）、话本小说、宋词。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡  paradox：军事最弱的大一统王朝，却经济文化最发达</p>' },
+    { title: '明朝的海禁与郑和下西洋', body: '<p>明朝（1368-1644）有两个看似矛盾的面相：</p><p><strong>郑和下西洋</strong>（1405-1433）：七次远航，船队规模史无前例，最远到达非洲东海岸。这是当时世界上最强大的海军力量。</p><p><strong>海禁政策</strong>：之后明朝突然转向封闭，禁止民间海外贸易，史称"片板不许下海"。</p><p>为什么？主流解释：朝廷认为远洋贸易"劳民伤财"，且倭寇问题让政府对海洋充满警惕。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 历史假设：如果明朝持续开放，中国的近代史可能完全不同</p>' },
+    { title: '清朝的盛极而衰', body: '<p>清朝（1644-1912）经历了<strong>康雍乾盛世</strong>（1661-1799），这是中国历史上最长的一段盛世，人口从约1亿增长到3亿。</p><p>但盛世背后隐藏着危机：</p><p>1. <strong>闭关锁国</strong>：乾隆时期基本关闭了对外贸易（仅留广州一口通商）。</p><p>2. <strong>文字狱</strong>：思想控制空前严酷，知识分子转向考据学，不敢碰现实问题。</p><p>3. <strong>科技停滞</strong>：当西方工业革命爆发时，中国还在用小农经济。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心教训：开放才能进步，封闭必然落后</p>' },
+    { title: '鸦片战争与近代开端', body: '<p>1840年<strong>鸦片战争</strong>爆发，英国用坚船利炮打开了中国大门。这场战争的本质是：</p><p><strong>贸易逆差</strong>：英国人想卖东西给中国，但中国人只喜欢白银，不喜欢英国货。于是英国开始走私鸦片。</p><p><strong>林则徐禁烟</strong>：道光皇帝派林则徐到广州禁烟，虎门销烟引发英国报复。</p><p>结果：中国战败，签订<strong>《南京条约》</strong>，割让香港、赔款、开放五口通商。这是中国近代史的起点。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心认知：鸦片战争 = 农业文明 vs 工业文明的第一次正面碰撞</p>' },
+    { title: '辛亥革命与帝制终结', body: '<p>1911年<strong>辛亥革命</strong>爆发，推翻了清朝，结束了中国两千多年的帝制。</p><p><strong>背景</strong>：甲午战争惨败→戊戌变法失败→八国联军侵华→清政府彻底失去民心。</p><p><strong>关键人物</strong>：孙中山提出"三民主义"（民族、民权、民生），是革命的精神领袖。</p><p><strong>意外结果</strong>：革命成功后，袁世凯窃取果实，复辟帝制失败，中国进入军阀混战时期。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 历史意义：中国人第一次尝试"共和制"，虽然不完美，但方向已定</p>' }
+  ],
+  economy: [
+    { title: '什么是经济学', body: '<p>经济学研究的核心问题只有一句话：<strong>资源有限，欲望无限，怎么分配？</strong></p><p>两个分支：</p><p><strong>微观经济学</strong>：研究个人和企业如何做决策（如：这个东西该不该买？工资该怎么定？）</p><p><strong>宏观经济学</strong>：研究整个国家的经济（如：GDP怎么算？失业率为啥高？通胀是啥？）</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 一句话记住：经济学 = 在稀缺条件下做选择的学问</p>' },
+    { title: '供需关系', body: '<p>这是经济学最基础的概念，没有之一。</p><p><strong>需求</strong>：价格越高，买的人越少（需求曲线向下倾斜）。</p><p><strong>供给</strong>：价格越高，卖的人越多（供给曲线向上倾斜）。</p><p><strong>均衡价格</strong>：需求和供给两条线交叉的那个点，就是市场上"刚刚好"的价格。</p><p>举例：口罩在疫情期间价格暴涨 → 需求暴增 + 供给短期不变 = 价格飙升。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心洞察：价格不是"定价"出来的，是买卖双方"博弈"出来的</p>' },
+    { title: '机会成本', body: '<p><strong>机会成本</strong> = 你做了一件事，就放弃了做另一件事的收益。</p><p>举例：你花 2 小时刷手机，机会成本不是"0元"，而是"这2小时如果你去健身/学习能获得的收益"。</p><p>经济学认为，<strong>所有的成本都是机会成本</strong>。你花的每一分钱、每一分钟，都意味着放弃了其他用途。</p><p>理性决策的原则：做一件事，当且仅当它的收益 > 它的机会成本。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 生活应用：时间管理 = 最小化机会成本的实践</p>' },
+    { title: '通货膨胀', body: '<p><strong>通货膨胀</strong> = 钱变多了，但东西没变多，所以东西"变贵了"。</p><p>简单模型：市场上 100 元对应 100 个苹果，每个 1 元。如果央行印了 100 元（总共 200 元），但苹果还是 100 个，那每个苹果就变成 2 元。</p><p><strong>适度通胀</strong>（2-3%/年）是健康的，说明经济在增长。</p><p><strong>恶性通胀</strong>（如津巴布韦、委内瑞拉）则摧毁经济，钱变成废纸。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 为什么你的钱越来越不值钱？因为每年都在"温和通胀"</p>' },
+    { title: 'GDP 是什么', body: '<p><strong>GDP</strong>（国内生产总值）= 一个国家一年内生产的所有最终商品和服务的市场价值总和。</p><p>三种算法（结果应该一样）：</p><p>1. <strong>生产法</strong>：把所有企业的产出加起来。</p><p>2. <strong>支出法</strong>：消费 + 投资 + 政府支出 + 净出口。</p><p>3. <strong>收入法</strong>：所有人和企业的收入加起来。</p><p>GDP 的局限：不衡量幸福感、不计算家务劳动、不反映贫富差距。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 GDP 衡量"多大"，但不衡量"多好"</p>' },
+    { title: '货币政策与央行', body: '<p><strong>中央银行</strong>（中国的央行是"中国人民银行"）掌握着经济的三大工具：</p><p>1. <strong>利率</strong>：降息 → 借钱便宜 → 大家多花钱多投资 → 经济变热。加息则相反。</p><p>2. <strong>存款准备金率</strong>：银行收了100元存款，必须存一部分到央行。比例越低，银行能贷出去的钱越多。</p><p>3. <strong>公开市场操作</strong>：央行直接买卖国债，向市场"放水"或"抽水"。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 简单记：央行 = 经济的水龙头，拧大就放水（刺激），拧小就收缩</p>' },
+    { title: '贸易顺差与逆差', body: '<p>你卖东西给外国 > 你买外国的东西 = <strong>贸易顺差</strong>（赚外汇）。</p><p>你买外国的东西 > 你卖东西给外国 = <strong>贸易逆差</strong>（花外汇）。</p><p>中国过去几十年一直是<strong>世界第一贸易顺差国</strong>，靠"世界工厂"模式积累了几万亿美元外汇储备。</p><p>美国则长期逆差，靠印美元"买全球"。</p><p>特朗普的关税战本质：试图减少美国逆差，让制造业回流。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 顺逆差本身没有绝对好坏，关键看结构和可持续性</p>' },
+    { title: '边际效用递减', body: '<p>第一块披萨很好吃，第二块还行，第三块有点撑，第四块想吐——这就是<strong>边际效用递减</strong>。</p><p>经济学定义：每多消费一单位商品，给你带来的额外满足感越来越少。</p><p>这个规律解释了：</p><p>• 为什么富人不太愿意多赚钱（钱的边际效用低了）</p><p>• 为什么垄断企业不会无限提价（提价到一定程度没人买了）</p><p>• 为什么"久入芝兰之室不闻其香"</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 生活启示：适度才好，多了反而减分</p>' },
+    { title: '复利的力量', body: '<p><strong>复利</strong> = 利滚利。爱因斯坦（据说）称它为"世界第八大奇迹"。</p><p>公式：最终金额 = 本金 × (1 + 年化收益率)^年数</p><p>举例：每月存 1000 元，年化 8%，30 年后你有多少？</p><p>答案：约 <strong>150 万</strong>。（你总共只存了 36 万，其余是复利的魔法）</p><p>反过来：信用卡欠款 1 万，年化 18%，拖 10 年不还 = 欠款膨胀到约 5.2 万。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心法则：尽早开始 + 持续投入 + 时间 = 财富的复利奇迹</p>' },
+    { title: '市场失灵与政府干预', body: '<p>自由市场并不总是完美的，有时候会"失灵"：</p><p>1. <strong>外部性</strong>：工厂排污（负外部性）→ 社会成本 > 私人成本 → 需要政府收污染税。</p><p>2. <strong>公共品</strong>：路灯、国防——人人都受益，但没人愿意单独出钱 → 只能政府提供。</p><p>3. <strong>垄断</strong>：一家独大 → 抬高价格 → 需要反垄断法。</p><p>4. <strong>信息不对称</strong>：卖家比买家懂得多 → 柠檬市场 → 需要监管和信息披露。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心认知：市场有效但不是万能的，政府该管的时候要管</p>' }
+  ],
+  feminism: [
+    { title: '什么是女性主义', body: '<p><strong>女性主义</strong>（Feminism）的核心理念只有一句话：<strong>男性和女性应该享有平等的权利、机会和尊严。</strong></p><p>它不是"仇男"，也不是"女尊男卑"，而是追求<strong>性别平等</strong>。</p><p>女性主义认为：很多被认为"天生如此"的男女差异，其实是<strong>社会建构</strong>出来的（比如"男主外女主内"），而非生物决定。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 一句话区分：生理性别（sex）是天生的，社会性别（gender）是塑造的</p>' },
+    { title: '第一波浪潮：投票权', body: '<p>时间：19世纪末-20世纪初（约1890s-1920s）</p><p><strong>核心诉求</strong>：女性要有<strong>投票权</strong>。</p><p>代表人物：</p><p>• <strong>玛丽·沃斯通克拉夫特</strong>（英国）：1792年发表《女权辩护》，被视为女性主义开山之作。</p><p>• <strong>苏珊·安东尼</strong>（美国）：为女性投票权奋斗一生，1920年美国通过宪法第19修正案（她没能活着看到）。</p><p>• <strong>秋瑾</strong>（中国）：近代中国女性解放先驱，"巾帼英雄"。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 里程碑：1928年英国女性获得与男性同等的投票权</p>' },
+    { title: '第二波浪潮：打破刻板印象', body: '<p>时间：1960s-1980s</p><p><strong>核心诉求</strong>：不只是政治权利，还要<strong>社会和文化层面</strong>的平等。</p><p>标志性事件：</p><p>• 1963年贝蒂·弗里丹出版<strong>《女性的神话》</strong>，揭露"幸福家庭主妇"是谎言。</p><p>• 1966年美国成立<strong>NOW</strong>（全国妇女组织），推动职场平等。</p><p>• 口号："<strong>个人的即政治的</strong>"——家务、育儿、性不是私事，而是权力结构的一部分。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心洞察：不平等不只存在于法律条文里，更存在于日常生活的每一个细节中</p>' },
+    { title: '第三波浪潮：多元化与交叉性', body: '<p>时间：1990s-2010s</p><p>第二波被批评"只代表白人中产阶级女性"。第三波做出了重要修正：</p><p>1. <strong>交叉性</strong>（Intersectionality）：由黑人女性学者 Kimberlé Crenshaw 提出。一个黑人底层女性的困境 ≠ 一个白人精英女性的困境，不能用"女性"一个标签概括。</p><p>2. <strong>多元声音</strong>：关注不同种族、阶层、性取向、残障女性的不同经验。</p><p>3. <strong>性别流动性</strong>：挑战"非男即女"的二元框架。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心概念：交叉性 = 性别 + 种族 + 阶层 + 其他身份 = 多重叠加的压迫</p>' },
+    { title: '第四波浪潮：#MeToo 与数字行动', body: '<p>时间：2012年至今</p><p>这一波的最大特征是<strong>互联网</strong>。</p><p>• 2017年 #MeToo 运动爆发：无数女性公开讲述被性骚扰的经历，从好莱坞蔓延到全球。</p><p>• <strong>中国语境</strong>：虽然没有大规模 #MeToo 标签，但"反性骚扰""离婚冷静期争议""女性职场歧视"等话题持续发酵。</p><p>• <strong>新议题</strong>：身体自主权、月经正义、有偿家务劳动、数字空间的性别暴力。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心变化：互联网让女性主义从"精英讨论"变成"大众运动"</p>' },
+    { title: '自由主义女性主义', body: '<p>四大流派之一。<strong>核心主张</strong>：男女在智力、能力上没有本质差异，差异来自<strong>教育和机会的不平等</strong>。</p><p>解决路径：</p><p>• 争取<strong>法律平等</strong>（投票权、财产权、同工同酬）。</p><p>• 推动<strong>教育机会均等</strong>。</p><p>• 消除职场歧视。</p><p>代表人物：玛丽·沃斯通克拉夫特、约翰·斯图尔特·密尔。</p><p>批评：过于强调"个人奋斗"，忽略了结构性障碍（如阶级、种族）。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 一句话：给女性同样的起跑线，她们能跑一样快</p>' },
+    { title: '激进女性主义', body: '<p>四大流派之一。<strong>核心主张</strong>：父权制是<strong>最根本的压迫形式</strong>，比阶级压迫更深层、更普遍。</p><p>关键观点：</p><p>• 父权制不是"落后文化"的产物，而是<strong>所有社会共有的结构</strong>。</p><p>• 女性受压迫的根源在于<strong>对女性身体和生育的控制</strong>（如强迫婚姻、生育绑架）。</p><p>• 需要<strong>根本性的社会变革</strong>，而非在现有体系内修修补补。</p><p>代表人物：凯特·米利特、舒拉米斯·费尔斯通。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 一句话：不推翻父权制，其他解放都是表面的</p>' },
+    { title: '社会主义女性主义', body: '<p>四大流派之一。<strong>核心主张</strong>：女性受压迫是<strong>资本主义 + 父权制</strong>双重作用的结果。</p><p>关键观点：</p><p>• 女性在家庭中做的<strong>无偿劳动</strong>（育儿、家务、照顾老人）是资本主义运转的"免费基础设施"。</p><p>• 如果家务和育儿都市场化（请保姆、送托班），资本主义的劳动力成本会飙升。</p><p>• 因此资本主义<strong>有动力维持</strong>"女性无偿家务"的安排。</p><p>代表人物：弗里德里希·恩格斯（《家庭、私有制和国家的起源》）。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 一句话：不解决经济不平等，性别平等就是空话</p>' },
+    { title: '交叉性女性主义', body: '<p>当代最具影响力的流派。<strong>核心主张</strong>：不能用"女性"一个标签概括所有女性的经验，必须同时考虑<strong>种族、阶层、国籍、性取向</strong>等多重身份。</p><p>举例：</p><p>• 一个硅谷白人女高管的困境 ≠ 一个拉美裔清洁工的困境。</p><p>• "女性团结"如果只代表精英女性的声音，就是<strong>排他性的</strong>。</p><p>实践意义：真正的女性主义必须同时反对<strong>性别歧视、种族歧视、阶级压迫</strong>。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 一句话：没有" universal sisterhood "，只有具体的、有差异的女性经验</p>' },
+    { title: '中国女性主义的本土脉络', body: '<p>中国女性主义有自己的独特轨迹：</p><p>1. <strong>近代启蒙</strong>（1900s-1940s）：秋瑾、何香凝等先驱倡导"女学""放足""参政"。</p><p>2. <strong>社会主义时期</strong>（1949-1970s）：毛泽东提出"妇女能顶半边天"，法律上保障平等，但公私领域的性别分工并未真正打破。</p><p>3. <strong>改革开放后</strong>（1980s-2000s）：市场化为女性带来新机会，也带来新问题（下岗潮中女性首当其冲）。</p><p>4. <strong>当代</strong>（2010s至今）：独立女性意识觉醒、反家暴法出台、#MeToo 在中国、生育政策与女性身体的张力。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心认知：中国女性主义 = 全球理论 + 本土实践 + 独特历史语境</p>' }
+  ],
+  culture: [
+    { title: '什么是文化', body: '<p>文化不是一个高雅的词汇，它是<strong>一个群体共享的生活方式</strong>。</p><p>包括四个层次：</p><p>1. <strong>物质文化</strong>：食物、衣服、建筑、工具。</p><p>2. <strong>行为文化</strong>：礼仪、习俗、节日、生活方式。</p><p>3. <strong>制度文化</strong>：法律、教育、家庭结构、政治制度。</p><p>4. <strong>精神文化</strong>：价值观、信仰、审美、哲学。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心定义：文化 = 你从小到大"理所当然"的那些事</p>' },
+    { title: '儒家文化的核心', body: '<p>儒家思想统治中国两千多年，塑造了中国人的核心价值观。</p><p>五个核心概念：</p><p>1. <strong>仁</strong>：爱人，推己及人（"己所不欲，勿施于人"）。</p><p>2. <strong>义</strong>：做该做的事，即使对自己不利。</p><p>3. <strong>礼</strong>：社会规范和仪式，维持秩序。</p><p>4. <strong>智</strong>：明辨是非的能力。</p><p>5. <strong>信</strong>：言而有信，诚信。</p><p>儒家的社会模型：<strong>君臣、父子、夫妇、兄弟、朋友</strong>——五伦关系，各有各的"本分"。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 影响至今：中国人的"人情社会""面子文化"都源于儒家</p>' },
+    { title: '道家与道家智慧', body: '<p>道家和儒家是中国文化的两条腿，一进一退，一刚一柔。</p><p><strong>老子</strong>（《道德经》）：</p><p>• "道可道，非常道"——真正的道无法用语言描述。</p><p>• "无为而治"——不瞎折腾，顺应自然规律。</p><p>• "上善若水"——最高级的善像水一样，利万物而不争。</p><p><strong>庄子</strong>：</p><p>• "逍遥游"——精神自由，不被外物束缚。</p><p>• "庄周梦蝶"——现实和梦境的边界在哪里？</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 生活智慧：儒家教你"怎么在社会中成功"，道家教你"怎么在失败中自在"</p>' },
+    { title: '中国饮食文化', body: '<p>中国饮食不只是一种"吃"，更是一套<strong>文化系统</strong>。</p><p>四大菜系（传统说法）：</p><p>• <strong>鲁菜</strong>（北方）：咸鲜为主，宫廷菜的根基。</p><p>• <strong>川菜</strong>（西南）：麻辣鲜香，调味最丰富。</p><p>• <strong>粤菜</strong>（南方）：清淡鲜美，讲究食材本味。</p><p>• <strong>淮扬菜</strong>（江南）：精致细腻，刀工见长。</p><p>饮食背后的文化逻辑：</p><p>• <strong>食疗</strong>："药食同源"，吃东西也是养生。</p><p>• <strong>团圆</strong>：吃饭是家庭凝聚的仪式。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心概念：中国菜 = 色香味形器 + 节气 + 阴阳平衡</p>' },
+    { title: '汉字的文化密码', body: '<p>汉字不只是书写工具，它本身就是一部<strong>文化史</strong>。</p><p>造字六法（六书）：</p><p>1. <strong>象形</strong>：日☀️、月🌙、山⛰️——画出来的字。</p><p>2. <strong>指事</strong>：上↓、下↑、本（树根）——抽象指示。</p><p>3. <strong>会意</strong>：休（人靠树=休息）、明（日+月=明亮）。</p><p>4. <strong>形声</strong>：江（水+工）、河（水+可）——占汉字 80% 以上。</p><p>汉字的文化意义：</p><p>• 方言不同但文字相同 → 维系了中国的统一。</p><p>• 每个字都承载哲学（如"仁"=人+二=人与人的关系）。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心洞察：汉字是"活化石"，刻着中国人的思维方式</p>' },
+    { title: '中国家庭观念', body: '<p>中国家庭观念的核心是<strong>"家"高于"个人"</strong>。</p><p>几个关键概念：</p><p>1. <strong>孝</strong>：对父母的尊敬和赡养，是道德的根基。</p><p>2. <strong>家族</strong>：不是核心家庭（父母+孩子），而是扩展到叔伯姑姨的大家族网络。</p><p>3. <strong>传宗接代</strong>：延续香火是人生大事。</p><p>4. <strong>差序格局</strong>（费孝通提出）：中国人以自己为中心，像水波纹一样一圈圈往外推——最近是家人，然后是亲戚、朋友、陌生人。</p><p>当代变化：城市化让核心家庭成为主流，"孝"的内涵也在变化。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心对比：西方是"个人主义"，中国是"关系主义"</p>' },
+    { title: '中国美学精神', body: '<p>中国艺术和西方最大的不同：<strong>不求"像"，而求"意"</strong>。</p><p>几个核心美学概念：</p><p>1. <strong>留白</strong>：画面上不画满，留出空白让观者想象。山水画尤其如此。</p><p>2. <strong>气韵生动</strong>：谢赫六法之首，画要有"生命力"和"节奏感"。</p><p>3. <strong>意境</strong>：超越画面本身的精神空间（如"孤舟蓑笠翁，独钓寒江雪"的画面感）。</p><p>4. <strong>写意</strong> vs 西方的<strong>写实</strong>：中国画重神似，西方画重形似。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 一句话：中国美学 = 少即是多 + 言外之意 + 天人合一</p>' },
+    { title: '传统节日的精神', body: '<p>每个中国节日都不只是"放假"，背后有深刻的文化逻辑。</p><p>• <strong>春节</strong>：辞旧迎新 + 家族团聚 + 祖先崇拜。</p><p>• <strong>清明</strong>：慎终追远 + 生死对话 + 春天的复苏。</p><p>• <strong>端午</strong>：爱国（屈原）+ 驱邪（艾草、龙舟）+ 季节转换。</p><p>• <strong>中秋</strong>：团圆 + 月亮崇拜 + 丰收感恩。</p><p>• <strong>重阳</strong>：敬老 + 登高（避灾）+ 菊花（长寿）。</p><p>节日的共同功能：<strong>在时间中标记意义</strong>，让日常生活有节奏感和仪式感。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心认知：节日 = 文化的"定期复习"，一代代传递价值观</p>' },
+    { title: '中国文学的精神脉络', body: '<p>中国文学有一条贯穿始终的线索：<strong>文以载道</strong>——文学不只是娱乐，更是传达思想和道德的载体。</p><p>几个里程碑：</p><p>• <strong>《诗经》</strong>：中国最早的诗歌总集，"风雅颂"奠定了诗歌传统。</p><p>• <strong>楚辞</strong>（屈原）：浪漫主义源头，想象瑰丽。</p><p>• <strong>唐诗</strong>：中国诗歌的巅峰，李白（浪漫）、杜甫（现实）、王维（禅意）。</p><p>• <strong>宋词</strong>：从诗到词，更自由、更私人、更情感化。</p><p>• <strong>明清小说</strong>：《红楼梦》是中国小说的天花板，一部写尽人情世态的百科全书。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心脉络：诗 → 词 → 曲 → 小说 = 文学越来越"世俗化""个人化"</p>' },
+    { title: '当代中国文化认同', body: '<p>今天的中国人面临一个核心问题：<strong>我们是谁？</strong></p><p>几个张力：</p><p>1. <strong>传统 vs 现代</strong>：要不要穿汉服？要不要过圣诞？传统不是非此即彼的选择。</p><p>2. <strong>东方 vs 西方</strong>："国学热"背后是对本土文化信心的重建。</p><p>3. <strong>全球 vs 本土</strong>：喝星巴克的同时也喝奶茶，文化认同是"混搭"的。</p><p>4. <strong>国家 vs 个人</strong>：集体主义传统和个人主义觉醒之间的拉扯。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心认知：文化认同不是"回到过去"，而是在变化中找到"我是谁"</p>' }
+  ],
+  philosophy: [
+    { title: '什么是哲学', body: '<p>哲学（Philosophy）= <strong>philo（爱）+ sophia（智慧）</strong>= 爱智慧。</p><p>它不是一门具体的学科，而是一种<strong>追问的方式</strong>：</p><p>• 世界是什么？（本体论）</p><p>• 我们怎么认识世界？（认识论）</p><p>• 什么是对的、好的？（伦理学）</p><p>• 美是什么？（美学）</p><p>哲学家不给你标准答案，而是教你<strong>如何思考</strong>。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 一句话：科学回答"怎么做"，哲学回答"该不该做"和"为什么做"</p>' },
+    { title: '苏格拉底：认识你自己', body: '<p>苏格拉底（前469-前399）是西方哲学的奠基人。</p><p>他的核心方法：<strong>提问</strong>。通过不断追问，让对方发现自己的无知。</p><p>名言："<strong>我唯一知道的，就是我一无所知。</strong>"</p><p>他因"腐蚀青年"的罪名被雅典法庭判处死刑，饮鸩而亡。临死前说："未经审视的人生不值得过。"</p><p>启示：真正的智慧不是掌握了多少知识，而是<strong>知道自己不知道什么</strong>。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 苏格拉底方法 = 不断追问"为什么"，直到触及问题的本质</p>' },
+    { title: '柏拉图：理念世界', body: '<p>柏拉图（前427-前347）是苏格拉底的学生，西方哲学史上最系统的大师之一。</p><p>核心理论：<strong>理念论</strong>。</p><p>• 我们看到的现实世界只是"影子"。</p><p>• 真正的实在是一个<strong>理念世界</strong>（完美的"椅子"概念 vs 现实中不完美的椅子）。</p><p>• 灵魂在出生前见过理念世界，学习就是"回忆"。</p><p>他的政治理想：<strong>哲学王</strong>统治——最聪明的人当国王。写成《理想国》。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心隐喻：洞穴寓言——人像被锁在洞里看墙上的影子，哲学家是转身看到真实世界的人</p>' },
+    { title: '孔子：仁与礼', body: '<p>孔子（前551-前479）是中国哲学的源头，比苏格拉底早几十年。</p><p>核心概念：</p><p>1. <strong>仁</strong>：最高的道德标准。"仁者爱人"——对他人的关怀和同情。</p><p>2. <strong>礼</strong>：社会规范和仪式。"不学礼，无以立"——不懂规矩就无法立足社会。</p><p>3. <strong>中庸</strong>：不偏不倚，过犹不及。</p><p>孔子的教育观："有教无类"——不管出身贵贱都该受教育。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 东西方对比：苏格拉底追问"真理是什么"，孔子追问"人应该怎么活"</p>' },
+    { title: '康德：人为自然立法', body: '<p>康德（1724-1804）是近代哲学史上最重要的人物，被称为"哲学界的哥白尼"。</p><p>他的革命性观点：<strong>不是我们的知识符合对象，而是对象符合我们的认知结构。</strong></p><p>通俗地说：不是世界"本来就是那样"，而是我们的<strong>大脑自带滤镜</strong>（时间、空间、因果关系），通过这些滤镜我们才"看到"世界。</p><p>道德哲学：<strong>绝对命令</strong>——"只按照你同时愿意它成为普遍法则的准则去行动。"（说谎之所以错，是因为如果人人都说谎，信任就崩塌了。）</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 一句话：你能认识什么 + 你应该做什么 + 你可以希望什么 = 康德的三大问题</p>' },
+    { title: '功利主义：最大幸福原则', body: '<p>功利主义是影响力最大的伦理学理论之一。</p><p>核心原则（边沁、密尔）：<strong>评判一个行为对错的标准，是它能否带来"最大多数人的最大幸福"。</strong></p><p>应用举例：</p><p>• 医疗资源分配：救5个人的方案优于救1个人的方案。</p><p>• 政策制定：GDP增长 vs 环境保护的权衡。</p><p>批评：</p><p>• 少数人的权利可能被"多数人的幸福"牺牲（如民主暴政）。</p><p>• "幸福"怎么量化？不同人的幸福感不可比。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心张力：结果正义 vs 程序正义——功利主义只看结果</p>' },
+    { title: '存在主义：存在先于本质', body: '<p>存在主义是20世纪最具影响力的哲学思潮之一。</p><p>核心命题（萨特）：<strong>"存在先于本质"</strong>。</p><p>意思是：人没有"预设的本质"或"天生的使命"，人先"存在"着，然后通过自己的选择<strong>定义自己是谁</strong>。</p><p>关键概念：</p><p>• <strong>自由与责任</strong>：你绝对自由，但也绝对要为自己的选择负责。</p><p>• <strong>荒谬</strong>（加缪）：世界本身没有意义，但人可以在无意义中创造意义。</p><p>• <strong>本真性</strong>：活出真实的自己，而不是被社会期待定义。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 一句话：你没有"命中注定"的身份，你是自己选择的总和</p>' },
+    { title: '中国哲学 vs 西方哲学', body: '<p>两种哲学传统的根本差异：</p><p><strong>西方哲学</strong>：</p><p>• 重<strong>逻辑和论证</strong>，追求普遍真理。</p><p>• 主客分离：观察者 vs 被观察的世界。</p><p>• 典型问题：真理是什么？存在的本质是什么？</p><p><strong>中国哲学</strong>：</p><p>• 重<strong>实践和体悟</strong>，追求"天人合一"。</p><p>• 主客合一：人就在世界之中，不是"旁观者"。</p><p>• 典型问题：人应该怎么活？社会应该怎么治理？</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 互补关系：西方哲学给你"分析工具"，中国哲学给你"生活智慧"</p>' },
+    { title: '批判性思维', body: '<p><strong>批判性思维</strong>不是"批评别人"，而是<strong>对自己的思考进行审视</strong>。</p><p>三个核心技能：</p><p>1. <strong>识别论证结构</strong>：前提是什么？结论是什么？推理是否有效？</p><p>2. <strong>评估证据质量</strong>：数据来源可靠吗？有没有选择性呈现？</p><p>3. <strong>发现逻辑谬误</strong>：偷换概念、诉诸情感、非黑即白、因果倒置……</p><p>常见谬误举例：</p><p>• "我朋友吃了这个药好了，所以这药有效" → 样本太小 + 幸存者偏差。</p><p>• "你不爱国" → 诉诸人身攻击，转移话题。</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 核心习惯：对任何主张多问一句"证据呢？有没有其他解释？"</p>' },
+    { title: '哲学与日常生活', body: '<p>哲学不是象牙塔里的游戏，它渗透在日常生活的每一个选择中。</p><p>几个应用场景：</p><p>1. <strong>职业选择</strong>：赚钱多 vs 有意义——功利主义 vs 存在主义的张力。</p><p>2. <strong>人际关系</strong>：康德的"绝对命令"——你希望别人怎么对你，你就怎么对别人。</p><p>3. <strong>面对失败</strong>：斯多葛哲学（马可·奥勒留）——区分"你能控制的"和"你控制不了的"。</p><p>4. <strong>消费主义</strong>：道家"知足"vs 资本主义"永远不够"——你真的需要那么多吗？</p><p>5. <strong>AI 时代</strong>：如果AI能写文章、画画、编程，人的"独特性"在哪里？</p><p style="color:var(--gray-400);font-size:12px;margin-top:8px;">💡 终极问题：哲学不会给你答案，但会让你的问题变得更清晰</p>' }
+  ]
+};
+
+// 学科中文名映射
+var subjectNames = {
+  history: '历史', economy: '经济', feminism: '女性主义',
+  culture: '文化', philosophy: '哲学'
+};
+
+// 当前学科和索引
+var currentSubject = 'history';
+var currentIndex = 0;
+
+// 从 localStorage 恢复进度
+function getProgress() {
+  try { return JSON.parse(localStorage.getItem('learn_progress') || '{}'); }
+  catch(e) { return {}; }
+}
+function saveProgress(subject, index) {
+  var p = getProgress();
+  p[subject] = index;
+  localStorage.setItem('learn_progress', JSON.stringify(p));
+}
+
+// 渲染知识点
+function renderKnowledge() {
+  var list = knowledgeDB[currentSubject];
+  var idx = currentIndex;
+  // 循环
+  if (idx < 0) idx = list.length - 1;
+  if (idx >= list.length) idx = 0;
+  currentIndex = idx;
+
+  var kp = list[idx];
+  document.getElementById('kpTitle').textContent = kp.title;
+  document.getElementById('kpSubject').textContent = subjectNames[currentSubject] + ' · 第 ' + (idx+1) + ' / ' + list.length + ' 节';
+  document.getElementById('kpBody').innerHTML = kp.body;
+
+  // 进度条
+  var pct = ((idx + 1) / list.length * 100).toFixed(0);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = (idx+1) + '/' + list.length;
+
+  saveProgress(currentSubject, idx);
+}
+
+// 学科切换
+document.querySelectorAll('.subject-chip').forEach(function(chip) {
+  chip.addEventListener('click', function() {
+    document.querySelectorAll('.subject-chip').forEach(function(c) { c.classList.remove('active'); });
+    chip.classList.add('active');
+    currentSubject = chip.dataset.subject;
+    currentIndex = getProgress()[currentSubject] || 0;
+    renderKnowledge();
+  });
+});
+
+// 上一个/下一个
+document.getElementById('prevKpBtn').addEventListener('click', function() {
+  currentIndex--;
+  renderKnowledge();
+});
+document.getElementById('nextKpBtn').addEventListener('click', function() {
+  currentIndex++;
+  renderKnowledge();
+});
+
+// 初始化知识点
+(function() {
+  var p = getProgress();
+  currentIndex = p[currentSubject] || 0;
+  renderKnowledge();
+})();
+
+// ===== 运动方案生成 =====
+var workoutPlans = {
+  '新手': {
+    warmup: '原地踏步 3 分钟（慢速）→ 手臂绕环 1 分钟 → 踝关节旋转 1 分钟',
+    main_templates: [
+      { desc: '站立有氧操（无跑跳版）', keyword: '无跑跳站立有氧 初学者', time: '15-20分钟' },
+      { desc: '椅子辅助深蹲 + 墙壁俯卧撑', keyword: '零基础椅子辅助训练', time: '10-15分钟' },
+      { desc: '慢速踏步燃脂（跟着节奏走）', keyword: 'Jo姐 踏步有氧 初学者', time: '15-20分钟' },
+      { desc: '站立核心激活（平板支撑靠墙版）', keyword: '站立核心训练 大基数', time: '10分钟' }
+    ],
+    stretch: '颈部拉伸 → 肩部绕环 → 猫牛式 → 站立体前屈（微弯膝盖）→ 大腿前侧拉伸，每个动作保持 20 秒'
+  },
+  '适应': {
+    warmup: '开合跳（小幅度）1 分钟 → 高抬腿（原地慢速）1 分钟 → 手臂动态拉伸 1 分钟 → 髋关节绕环 1 分钟 → 踝关节激活 1 分钟',
+    main_templates: [
+      { desc: '低冲击 HIIT（无跑跳高强度间歇）', keyword: '低冲击HIIT 无跑跳 燃脂', time: '20-25分钟' },
+      { desc: '站立全身燃脂操', keyword: '帕梅拉 低冲击全身燃脂', time: '20-25分钟' },
+      { desc: '哑铃全身力量（2-3kg 小哑铃）', keyword: '哑铃全身力量训练 女性', time: '20分钟' },
+      { desc: '踏板有氧 / 阶梯踏步', keyword: '踏板有氧 初学者进阶', time: '20-25分钟' }
+    ],
+    stretch: '下犬式 → 鸽子式（髋部拉伸）→ 站立体前屈 → 四头肌拉伸 → 胸椎旋转，每个动作保持 30 秒'
+  },
+  '提升': {
+    warmup: '动态拉伸全套 5 分钟（高抬腿、侧弓步、前后摆腿、手臂环绕、躯干旋转）',
+    main_templates: [
+      { desc: '低冲击 HIIT 进阶版（组合动作）', keyword: '低冲击HIIT进阶 组合动作', time: '25-30分钟' },
+      { desc: '哑铃全身力量 + 代谢燃脂', keyword: '哑铃力量训练 全身 女性进阶', time: '25-30分钟' },
+      { desc: 'Tabata 低冲击版（20秒动/10秒休×8组）', keyword: 'Tabata低冲击 无跑跳', time: '20-25分钟' },
+      { desc: '单侧训练 + 平衡挑战', keyword: '单侧训练 平衡 核心力量', time: '25分钟' }
+    ],
+    stretch: '深度拉伸全套 8 分钟：腘绳肌拉伸 → 臀部深层拉伸 → 胸椎灵活度 → 髋屈肌拉伸 → 肩颈放松 → 泡沫轴滚压'
+  }
+};
+
+// 根据时长和阶段选择方案
+function generatePlan(weight, waist, energy, duration, stage) {
+  var plans = workoutPlans[stage] || workoutPlans['适应'];
+  var energyNum = parseInt(energy);
+
+  // 根据状态调整时长
+  var actualDuration = parseInt(duration);
+  if (energyNum <= 2) actualDuration = Math.min(actualDuration, 20);
+  if (energyNum === 3) actualDuration = Math.min(actualDuration, Math.round(actualDuration * 0.8));
+
+  // 分配时间
+  var warmupTime = 5;
+  var stretchTime = 5;
+  var mainTime = actualDuration - warmupTime - stretchTime;
+  if (mainTime < 5) { warmupTime = 3; stretchTime = 3; mainTime = actualDuration - 6; }
+
+  // 选择主训练（根据时长选 1-2 个）
+  var mainOptions = plans.main_templates;
+  var selectedMain = [];
+  if (mainTime <= 15) {
+    selectedMain = [mainOptions[0]];
+  } else if (mainTime <= 25) {
+    selectedMain = [mainOptions[0], mainOptions[1]];
+  } else {
+    selectedMain = [mainOptions[0], mainOptions[1], mainOptions[2]];
+  }
+
+  return {
+    warmup: plans.warmup + '（' + warmupTime + '分钟）',
+    main: selectedMain,
+    mainTime: mainTime,
+    stretch: plans.stretch + '（' + stretchTime + '分钟）',
+    totalTime: actualDuration,
+    keywordList: selectedMain.map(function(m) { return m.keyword; })
+  };
+}
+
+// 渲染方案
+function renderPlan(plan, stage) {
+  document.getElementById('planCard').classList.add('show');
+  document.getElementById('planTitle').textContent = '今日方案 · 共 ' + plan.totalTime + ' 分钟';
+  document.getElementById('planStage').textContent = stage;
+  document.getElementById('planWarmup').textContent = plan.warmup;
+
+  var mainHtml = '';
+  plan.main.forEach(function(m, i) {
+    mainHtml += '<div style="margin-bottom:8px;"><strong>动作' + (i+1) + '</strong>：' + m.desc + '（约 ' + Math.round(plan.mainTime / plan.main.length) + ' 分钟）</div>';
+  });
+  document.getElementById('planMain').innerHTML = mainHtml;
+
+  var videoHtml = '';
+  plan.keywordList.forEach(function(kw) {
+    var biliUrl = 'https://search.bilibili.com/all?keyword=' + encodeURIComponent(kw);
+    videoHtml += '<a class="video-link" href="' + biliUrl + '" target="_blank">▶ ' + kw + '</a>';
+  });
+  document.getElementById('planVideos').innerHTML = videoHtml;
+
+  document.getElementById('planStretch').textContent = plan.stretch;
+}
+
+// 生成方案按钮
+document.getElementById('generatePlanBtn').addEventListener('click', function() {
+  var weight = document.getElementById('weight').value.trim();
+  var waist = document.getElementById('waist').value.trim();
+  var energy = document.getElementById('energy').value.trim();
+  var duration = document.getElementById('duration').value.trim();
+  var stage = document.getElementById('stage').value;
+
+  if (!weight || !waist || !energy || !duration) {
+    alert('请填写完整信息');
+    return;
+  }
+
+  var plan = generatePlan(weight, waist, energy, duration, stage);
+  renderPlan(plan, stage);
+
+  // 记录日志
+  addLog(weight, waist, energy, plan.totalTime, stage);
+
+  // 滚动到方案区域
+  setTimeout(function() {
+    document.getElementById('planCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 200);
+});
+
+// 复制方案
+document.getElementById('copyPlanBtn').addEventListener('click', function() {
+  var text = document.getElementById('planTitle').textContent + '\n\n' +
+    '热身：' + document.getElementById('planWarmup').textContent + '\n\n' +
+    '主训练：' + document.getElementById('planMain').textContent.replace(/\n/g,' ') + '\n\n' +
+    '拉伸：' + document.getElementById('planStretch').textContent;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(function() { alert('方案已复制！'); });
+  } else {
+    alert('复制功能需要HTTPS环境，请手动复制');
+  }
+});
+
+// 去B站搜索
+document.getElementById('openBiliBtn').addEventListener('click', function() {
+  var keywords = document.getElementById('planVideos').querySelectorAll('a');
+  if (keywords.length > 0) keywords[0].click();
+});
+
+// ===== 运动日志 + 图表 =====
+function loadLogs() {
+  try { return JSON.parse(localStorage.getItem('workout_logs') || '[]'); }
+  catch(e) { return []; }
+}
+function saveLogs(logs) {
+  localStorage.setItem('workout_logs', JSON.stringify(logs));
+}
+function addLog(weight, waist, energy, duration, stage) {
+  var logs = loadLogs();
+  var now = new Date();
+  var dateStr = now.getFullYear() + '.' + String(now.getMonth()+1).padStart(2,'0') + '.' + String(now.getDate()).padStart(2,'0');
+  logs.push({ date: dateStr, weight: parseFloat(weight), waist: parseFloat(waist), energy: parseInt(energy), duration: parseInt(duration), stage: stage });
+  saveLogs(logs);
+}
+function clearLogs() {
+  if (confirm('确认清空所有记录？')) { localStorage.removeItem('workout_logs'); renderLog(); }
+}
+document.getElementById('clearLogBtn').addEventListener('click', clearLogs);
+
+// 简易折线图（纯Canvas实现，不依赖外部库）
+function drawChart() {
+  var logs = loadLogs();
+  var canvas = document.getElementById('trendChart');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var dpr = window.devicePixelRatio || 1;
+  var w = canvas.parentElement.clientWidth;
+  var h = 120;
+  canvas.width = w * dpr;
+  canvas.height = h * dpr;
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, w, h);
+
+  if (logs.length < 2) {
+    ctx.fillStyle = '#d4d4d4';
+    ctx.font = '13px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('记录2次以上数据后显示趋势图', w/2, h/2 + 4);
+    return;
+  }
+
+  var pad = { top: 15, right: 15, bottom: 20, left: 35 };
+  var cw = w - pad.left - pad.right;
+  var ch = h - pad.top - pad.bottom;
+
+  // 找最大最小值
+  var weights = logs.map(function(l) { return l.weight; });
+  var waists = logs.map(function(l) { return l.waist; });
+  var allVals = weights.concat(waists);
+  var minV = Math.min.apply(null, allVals) - 2;
+  var maxV = Math.max.apply(null, allVals) + 2;
+
+  function toX(i) { return pad.left + (i / (logs.length - 1)) * cw; }
+  function toY(v) { return pad.top + ch - ((v - minV) / (maxV - minV)) * ch; }
+
+  // 网格线
+  ctx.strokeStyle = '#f0f0f0';
+  ctx.lineWidth = 1;
+  for (var g = 0; g <= 3; g++) {
+    var gy = pad.top + (g / 3) * ch;
+    ctx.beginPath(); ctx.moveTo(pad.left, gy); ctx.lineTo(w - pad.right, gy); ctx.stroke();
+  }
+
+  // Y轴标签
+  ctx.fillStyle = '#a3a3a3';
+  ctx.font = '10px sans-serif';
+  ctx.textAlign = 'right';
+  for (var g2 = 0; g2 <= 3; g2++) {
+    var val = (maxV - (g2/3)*(maxV-minV)).toFixed(0);
+    var gy2 = pad.top + (g2 / 3) * ch;
+    ctx.fillText(val, pad.left - 6, gy2 + 3);
+  }
+
+  // 体重折线
+  ctx.strokeStyle = '#0a0a0a';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  logs.forEach(function(l, i) {
+    var x = toX(i), y = toY(l.weight);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+  // 圆点
+  logs.forEach(function(l, i) {
+    ctx.beginPath(); ctx.arc(toX(i), toY(l.weight), 3, 0, Math.PI*2);
+    ctx.fillStyle = '#0a0a0a'; ctx.fill();
+  });
+
+  // 腰围折线
+  ctx.strokeStyle = '#a3a3a3';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([4, 3]);
+  ctx.beginPath();
+  logs.forEach(function(l, i) {
+    var x = toX(i), y = toY(l.waist);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+  ctx.setLineDash([]);
+  logs.forEach(function(l, i) {
+    ctx.beginPath(); ctx.arc(toX(i), toY(l.waist), 3, 0, Math.PI*2);
+    ctx.fillStyle = '#a3a3a3'; ctx.fill();
+  });
+
+  // X轴标签（日期）
+  ctx.fillStyle = '#a3a3a3';
+  ctx.font = '9px sans-serif';
+  ctx.textAlign = 'center';
+  var labelStep = Math.ceil(logs.length / 4);
+  logs.forEach(function(l, i) {
+    if (i % labelStep === 0 || i === logs.length - 1) {
+      ctx.fillText(l.date.slice(5), toX(i), h - 5);
     }
-    function saveLogs(logs) {
-      localStorage.setItem('workout_logs', JSON.stringify(logs));
+  });
+}
+
+// 渲染日志列表
+function renderLog() {
+  var logs = loadLogs();
+  var listEl = document.getElementById('logList');
+  if (logs.length === 0) {
+    listEl.innerHTML = '<li class="no-log">暂无记录，去运动吧！</li>';
+  } else {
+    var recent = logs.slice(-10).reverse();
+    var html = '';
+    for (var i = 0; i < recent.length; i++) {
+      var item = recent[i];
+      html += '<li class="log-item">';
+      html += '<div class="log-item-left">';
+      html += '<span class="log-item-date">' + item.date + ' · 状态' + item.energy + '/5</span>';
+      html += '<span class="log-item-detail">体重 ' + item.weight + 'kg · 腰围 ' + item.waist + 'cm</span>';
+      html += '</div>';
+      html += '<div class="log-item-right">';
+      html += '<div class="log-item-duration">' + item.duration + '分钟</div>';
+      html += '<span class="log-item-stage">' + item.stage + '</span>';
+      html += '</div></li>';
     }
-    function renderLogs() {
-      var logs = loadLogs();
-      var listEl = document.getElementById('logList');
-      if (logs.length === 0) { listEl.innerHTML = '<li class="no-log">暂无记录</li>'; return; }
-      var recent = logs.slice(-10).reverse();
-      var html = '';
-      for (var i = 0; i < recent.length; i++) {
-        var item = recent[i];
-        html += '<li class="log-item">';
-        html += '<div class="log-date">' + item.date + '</div>';
-        html += '<div class="log-detail"><strong>' + item.duration + ' 分钟</strong> · ';
-        html += '体重 ' + item.weight + 'kg · 腰围 ' + item.waist + 'cm · ';
-        html += '状态 ' + item.energy + '/5<span class="stage-tag">' + item.stage + '</span></div>';
-        html += '</li>';
-      }
-      listEl.innerHTML = html;
-    }
-    function addLog(weight, waist, energy, duration, stage) {
-      var logs = loadLogs();
-      var now = new Date();
-      var dateStr = now.getFullYear() + '.' + String(now.getMonth()+1).padStart(2,'0') + '.' + String(now.getDate()).padStart(2,'0') + ' ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
-      logs.push({ date: dateStr, weight: weight, waist: waist, energy: energy, duration: duration, stage: stage });
-      saveLogs(logs);
-      renderLogs();
-    }
-    document.getElementById('clearLogBtn').addEventListener('click', function() {
-      if (confirm('确认清空所有运动记录？')) { localStorage.removeItem('workout_logs'); renderLogs(); }
-    });
+    listEl.innerHTML = html;
+  }
+  // 重绘图表
+  setTimeout(drawChart, 100);
+}
 
-    document.getElementById('generatePlanBtn').addEventListener('click', function() {
-      var weight = document.getElementById('weight').value.trim();
-      var waist = document.getElementById('waist').value.trim();
-      var energy = document.getElementById('energy').value.trim();
-      var duration = document.getElementById('duration').value.trim();
-      var stage = document.getElementById('stage').value;
-      if (!weight || !waist || !energy || !duration) { alert('请填写完整信息'); return; }
-      addLog(weight, waist, energy, duration, stage);
-
-      var stageDesc = '';
-      if (stage === '新手') stageDesc = '我是运动新手，请给我最低强度、最基础的跟练方案，动作简单易学，全程无跑跳，以站立动作为主。';
-      else if (stage === '适应') stageDesc = '我已有一定运动基础，可接受中等强度，但仍需避免跑跳，以低冲击有氧和力量训练为主。';
-      else stageDesc = '我体能较好，可接受较高强度训练，但仍需注意膝盖保护，避免剧烈跑跳。';
-
-      var promptText = '我今天体重' + weight + 'kg，腰围' + waist + 'cm，状态' + energy + '分（1-5分，5分最累），有' + duration + '分钟运动时间。' + stageDesc + '请给我推荐今天的跟练方案，要求：\n1. 按"热身+主训练+拉伸"三段分配，拉伸至少5分钟。\n2. 总时长严格匹配' + duration + '分钟。\n3. 提供2-3个B站跟练视频搜索关键词，每个标注建议时长。\n4. 新手动作要简单重复；提升阶段可加入变式和组合。\n5. 大基数，全程无跑跳，保护膝盖。';
-
-      var url = 'https://yuanbao.tencent.com/?prompt=' + encodeURIComponent(promptText);
-      window.open(url, '_blank');
-      overlay.classList.remove('show');
-    });
-
-    renderLogs();
-  </script>
+// 窗口尺寸变化时重绘图表
+window.addEventListener('resize', function() { drawChart(); });
+</script>
 </body>
 </html>
