@@ -13,92 +13,751 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 24px;
+    padding: 32px 20px;
   }
   h1 {
     color: #2c3e50;
-    font-size: 28px;
-    margin-bottom: 8px;
+    font-size: 26px;
+    margin-bottom: 4px;
     text-align: center;
   }
   .subtitle {
     color: #7f8c8d;
-    font-size: 14px;
-    margin-bottom: 40px;
+    font-size: 13px;
+    margin-bottom: 8px;
     text-align: center;
   }
-  .btn-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-    max-width: 340px;
-  }
-  .btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    padding: 28px 24px;
-    border-radius: 20px;
-    font-size: 20px;
-    font-weight: 600;
-    text-decoration: none;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
-  .btn:active {
-    transform: translateY(2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-  }
-  .btn-news {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-  }
-  .btn-workout {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    color: white;
-  }
-  .btn-icon {
-    font-size: 28px;
-  }
-  .footer {
-    margin-top: 40px;
+  .tip {
     color: #95a5a6;
     font-size: 12px;
+    margin-bottom: 28px;
     text-align: center;
+  }
+  
+  /* 两个主按钮 */
+  .main-btns {
+    display: flex;
+    gap: 14px;
+    width: 100%;
+    max-width: 350px;
+    margin-bottom: 28px;
+  }
+  .main-btn {
+    flex: 1;
+    padding: 20px 12px;
+    border-radius: 16px;
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    transition: transform 0.15s;
+  }
+  .main-btn:active { transform: translateY(2px); }
+  .btn-news { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+  .btn-workout { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+  
+  /* 学习领域选择 */
+  .section-title {
+    color: #555;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    width: 100%;
+    max-width: 350px;
+  }
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+    max-width: 350px;
+    margin-bottom: 28px;
+  }
+  .field-card {
+    background: white;
+    border-radius: 14px;
+    padding: 16px 12px;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+    transition: transform 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .field-card:active { transform: translateY(2px); }
+  .field-icon { font-size: 24px; }
+  .field-name { font-size: 15px; font-weight: 600; color: #2c3e50; }
+  .field-desc { font-size: 11px; color: #999; line-height: 1.4; }
+  
+  /* 运动表单 */
+  .form-container {
+    display: none;
+    width: 100%;
+    max-width: 370px;
+    margin-top: 0;
+    background: white;
+    border-radius: 16px;
+    padding: 22px 18px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+  .form-container.show { display: block; }
+  .form-group { margin-bottom: 12px; }
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .form-group input, .form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+    background: white;
+  }
+  .form-group input:focus, .form-group select:focus { border-color: #667eea; }
+  .btn-submit {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+  .btn-submit:active { opacity: 0.85; }
+  
+  /* 运动日志 */
+  .log-section {
+    width: 100%;
+    max-width: 370px;
+    margin-top: 28px;
+  }
+  .log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .log-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #555;
+  }
+  .log-clear {
+    font-size: 12px;
+    color: #e74c3c;
+    cursor: pointer;
+    background: none;
+    border: none;
+    text-decoration: underline;
+  }
+  .log-list {
+    list-style: none;
+    padding: 0;
+  }
+  .log-item {
+    background: white;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    font-size: 13px;
+    color: #444;
+    line-height: 1.5;
+  }
+  .log-item strong {
+    color: #2c3e50;
+  }
+  .no-log {
+    color: #bbb;
+    font-size: 13px;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .footer {
+    margin-top: 32px;
+    color: #95a5a6;
+    font-size: 11px;
+    text-align: center;
+    line-height: 1.6;
   }
 </style>
 </head>
 <body>
   <h1>📖 我的每日站</h1>
-  <p class="subtitle">上班摸鱼学习 · 下班科学运动</p>
+  <p class="subtitle">体系化学习 · 阶段化运动</p>
+  <p class="tip">每天选一个领域学知识，按阶段科学运动</p>
   
-  <div class="btn-container">
-    <a class="btn btn-news" href="https://www.inoreader.com" target="_blank">
-      <span class="btn-icon">📚</span>
-      <span>今日资讯</span>
+  <!-- 两个主按钮 -->
+  <div class="main-btns">
+    <a class="main-btn btn-news" href="#learn">📚 今日学习</a>
+    <button class="main-btn btn-workout" id="showFormBtn">🏃 今日运动</button>
+  </div>
+  
+  <!-- 学习领域选择 -->
+  <div class="section-title">选择学习领域 ↓</div>
+  <div class="field-grid">
+    <a class="field-card" href="https://www.allhistory.com" target="_blank">
+      <span class="field-icon">🏛️</span>
+      <span class="field-name">历史/文化</span>
+      <span class="field-desc">全知识·文史天梯</span>
     </a>
-    
-    <a class="btn btn-workout" id="workoutBtn" href="#">
-      <span class="btn-icon">🏃</span>
-      <span>今日运动</span>
+    <a class="field-card" href="https://www.mbalib.com" target="_blank">
+      <span class="field-icon">💰</span>
+      <span class="field-name">经济/管理</span>
+      <span class="field-desc">MBA智库·经管百科</span>
+    </a>
+    <a class="field-card" href="https://baike.baidu.com/item/%E5%A5%B3%E6%80%A7%E4%B8%BB%E4%B9%89/144607" target="_blank">
+      <span class="field-icon">🚺</span>
+      <span class="field-name">女性主义</span>
+      <span class="field-desc">四波浪潮·四大流派</span>
+    </a>
+    <a class="field-card" href="https://github.com/jakegom/weighing-the-world" target="_blank">
+      <span class="field-icon">🧠</span>
+      <span class="field-name">思维模型</span>
+      <span class="field-desc">27张卡片·跨学科</span>
     </a>
   </div>
   
-  <p class="footer">点击上方按钮开始你的一天</p>
+  <!-- 运动表单 -->
+  <div class="form-container" id="workoutForm">
+    <div class="form-group">
+      <label>体重 (kg)</label>
+      <input type="number" id="weight" placeholder="例如 65" step="0.1">
+    </div>
+    <div class="form-group">
+      <label>腰围 (cm)</label>
+      <input type="number" id="waist" placeholder="例如 80" step="0.1">
+    </div>
+    <div class="form-group">
+      <label>今天状态 (1-5分，5分最累)</label>
+      <input type="number" id="energy" placeholder="例如 3" min="1" max="5">
+    </div>
+    <div class="form-group">
+      <label>可用运动时长 (分钟)</label>
+      <input type="number" id="duration" placeholder="例如 30" min="5">
+    </div>
+    <div class="form-group">
+      <label>当前阶段</label>
+      <select id="stage">
+        <option value="新手">新手（刚开始运动，以低强度为主）</option>
+        <option value="适应" selected>适应（已有一定基础，可增加强度）</option>
+        <option value="提升">提升（体能较好，可挑战更高强度）</option>
+      </select>
+    </div>
+    <button class="btn-submit" id="generatePlanBtn">生成今日方案</button>
+    <p class="tip" style="margin-top:10px;">点击后自动打开元宝，点"发送"获取方案</p>
+  </div>
+  
+  <!-- 运动日志 -->
+  <div class="log-section">
+    <div class="log-header">
+      <span class="log-title">📊 我的运动日志</span>
+      <button class="log-clear" id="clearLogBtn">清空记录</button>
+    </div>
+    <ul class="log-list" id="logList">
+      <li class="no-log">还没有运动记录，开始第一次运动吧！</li>
+    </ul>
+  </div>
+  
+  <p class="footer">
+    每天一点，构建知识体系 · 循序渐进，见证身体变化<br>
+    建议：每个阶段坚持 2-4 周再升阶
+  </p>
 
   <script>
-    // 点击"今日运动"按钮，跳转到元宝并预填提示词
-    document.getElementById('workoutBtn').addEventListener('click', function(e) {
-      e.preventDefault();
-      var prompt = "我今天体重___kg，腰围___cm，感觉状态___分（1-5分），有___分钟时间运动。请给我推荐今天的跟练方案，要求：\n1. 给我2-3个B站跟练视频的搜索关键词\n2. 每个视频的时长\n3. 总时长要匹配我的可用时间\n4. 我是大基数（需要无跑跳）\n5. 按'热身+主训练+拉伸'分配";
-      
-      // 使用元宝的链接（你也可以换成豆包：https://www.doubao.com 或 DeepSeek：https://chat.deepseek.com）
-      var url = "https://yuanbao.tencent.com/?prompt=" + encodeURIComponent(prompt);
+    // ---------- 运动日志管理 ----------
+    function loadLogs() {
+      try {
+        var logs = JSON.parse(localStorage.getItem('workout_logs') || '[]');
+        return logs;
+      } catch(e) { return []; }
+    }
+    function saveLogs(logs) {
+      localStorage.setItem('workout_logs', JSON.stringify(logs));
+    }
+    function renderLogs() {
+      var logs = loadLogs();
+      var listEl = document.getElementById('logList');
+      if (logs.length === 0) {
+        listEl.innerHTML = '<li class="no-log">还没有运动记录，开始第一次运动吧！</li>';
+        return;
+      }
+      // 显示最近 10 条
+      var recent = logs.slice(-10).reverse();
+      var html = '';
+      for (var i = 0; i < recent.length; i++) {
+        var item = recent[i];
+        html += '<li class="log-item">';
+        html += '<strong>' + item.date + '</strong><br>';
+        html += '体重 ' + item.weight + 'kg · 腰围 ' + item.waist + 'cm · 状态 ' + item.energy + '/5 · ';
+        html += item.duration + '分钟 · 阶段：' + item.stage;
+        html += '</li>';
+      }
+      listEl.innerHTML = html;
+    }
+    function addLog(weight, waist, energy, duration, stage) {
+      var logs = loadLogs();
+      var now = new Date();
+      var dateStr = now.getFullYear() + '-' + 
+                    String(now.getMonth()+1).padStart(2,'0') + '-' + 
+                    String(now.getDate()).padStart(2,'0') + ' ' +
+                    String(now.getHours()).padStart(2,'0') + ':' +
+                    String(now.getMinutes()).padStart(2,'0');
+      logs.push({
+        date: dateStr,
+        weight: weight,
+        waist: waist,
+        energy: energy,
+        duration: duration,
+        stage: stage
+      });
+      saveLogs(logs);
+      renderLogs();
+    }
+    function clearLogs() {
+      if (confirm('确认清空所有运动记录？')) {
+        localStorage.removeItem('workout_logs');
+        renderLogs();
+      }
+    }
+    document.getElementById('clearLogBtn').addEventListener('click', clearLogs);
+
+    // ---------- 运动表单 ----------
+    document.getElementById('showFormBtn').addEventListener('click', function() {
+      var form = document.getElementById('workoutForm');
+      form.classList.toggle('show');
+      if (form.classList.contains('show')) {
+        setTimeout(function() {
+          form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+      }
+    });
+
+    document.getElementById('generatePlanBtn').addEventListener('click', function() {
+      var weight = document.getElementById('weight').value.trim();
+      var waist = document.getElementById('waist').value.trim();
+      var energy = document.getElementById('energy').value.trim();
+      var duration = document.getElementById('duration').value.trim();
+      var stage = document.getElementById('stage').value;
+
+      if (!weight || !waist || !energy || !duration) {
+        alert('请完整填写体重、腰围、状态和时长！');
+        return;
+      }
+
+      // 记录本次运动
+      addLog(weight, waist, energy, duration, stage);
+
+      // 根据阶段调整提示词
+      var stageDesc = '';
+      if (stage === '新手') {
+        stageDesc = '我是运动新手，刚开始锻炼，请给我最低强度、最基础的跟练方案，动作要简单易学，全程无跑跳，以站立动作为主。';
+      } else if (stage === '适应') {
+        stageDesc = '我已经有一定运动基础，可以接受中等强度的跟练，但仍需避免跑跳，以低冲击有氧和力量训练为主。';
+      } else if (stage === '提升') {
+        stageDesc = '我体能较好，可以接受较高强度的训练，但仍需注意膝盖保护，避免剧烈跑跳，可以选择高强度间歇的低冲击变式。';
+      }
+
+      var promptText = '我今天体重' + weight + 'kg，腰围' + waist + 'cm，感觉状态' + energy + '分（1-5分，5分最累），有' + duration + '分钟时间运动。' + stageDesc + '请给我推荐今天的跟练方案，要求：\n1. 按“热身+主训练+拉伸”分配，拉伸至少占5分钟。\n2. 总时长要严格匹配' + duration + '分钟。\n3. 提供2-3个B站跟练视频的搜索关键词（如“无跑跳燃脂站立”“帕梅拉低冲击”“Jo姐踏步有氧”等），每个视频标注建议时长。\n4. 如果是新手，动作要简单、重复性高；如果是提升阶段，可以加入更多变式和组合。';
+
+      var url = 'https://yuanbao.tencent.com/?prompt=' + encodeURIComponent(promptText);
       window.open(url, '_blank');
     });
+
+    // 初始化渲染日志
+    renderLogs();
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的每日站</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 20px;
+  }
+  h1 {
+    color: #2c3e50;
+    font-size: 26px;
+    margin-bottom: 4px;
+    text-align: center;
+  }
+  .subtitle {
+    color: #7f8c8d;
+    font-size: 13px;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  .tip {
+    color: #95a5a6;
+    font-size: 12px;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+  
+  /* 两个主按钮 */
+  .main-btns {
+    display: flex;
+    gap: 14px;
+    width: 100%;
+    max-width: 350px;
+    margin-bottom: 28px;
+  }
+  .main-btn {
+    flex: 1;
+    padding: 20px 12px;
+    border-radius: 16px;
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    transition: transform 0.15s;
+  }
+  .main-btn:active { transform: translateY(2px); }
+  .btn-news { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+  .btn-workout { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+  
+  /* 学习领域选择 */
+  .section-title {
+    color: #555;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    width: 100%;
+    max-width: 350px;
+  }
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+    max-width: 350px;
+    margin-bottom: 28px;
+  }
+  .field-card {
+    background: white;
+    border-radius: 14px;
+    padding: 16px 12px;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+    transition: transform 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .field-card:active { transform: translateY(2px); }
+  .field-icon { font-size: 24px; }
+  .field-name { font-size: 15px; font-weight: 600; color: #2c3e50; }
+  .field-desc { font-size: 11px; color: #999; line-height: 1.4; }
+  
+  /* 运动表单 */
+  .form-container {
+    display: none;
+    width: 100%;
+    max-width: 370px;
+    margin-top: 0;
+    background: white;
+    border-radius: 16px;
+    padding: 22px 18px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+  .form-container.show { display: block; }
+  .form-group { margin-bottom: 12px; }
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .form-group input, .form-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+    background: white;
+  }
+  .form-group input:focus, .form-group select:focus { border-color: #667eea; }
+  .btn-submit {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+  .btn-submit:active { opacity: 0.85; }
+  
+  /* 运动日志 */
+  .log-section {
+    width: 100%;
+    max-width: 370px;
+    margin-top: 28px;
+  }
+  .log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .log-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #555;
+  }
+  .log-clear {
+    font-size: 12px;
+    color: #e74c3c;
+    cursor: pointer;
+    background: none;
+    border: none;
+    text-decoration: underline;
+  }
+  .log-list {
+    list-style: none;
+    padding: 0;
+  }
+  .log-item {
+    background: white;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    font-size: 13px;
+    color: #444;
+    line-height: 1.5;
+  }
+  .log-item strong {
+    color: #2c3e50;
+  }
+  .no-log {
+    color: #bbb;
+    font-size: 13px;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .footer {
+    margin-top: 32px;
+    color: #95a5a6;
+    font-size: 11px;
+    text-align: center;
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+  <h1>📖 我的每日站</h1>
+  <p class="subtitle">体系化学习 · 阶段化运动</p>
+  <p class="tip">每天选一个领域学知识，按阶段科学运动</p>
+  
+  <!-- 两个主按钮 -->
+  <div class="main-btns">
+    <a class="main-btn btn-news" href="#learn">📚 今日学习</a>
+    <button class="main-btn btn-workout" id="showFormBtn">🏃 今日运动</button>
+  </div>
+  
+  <!-- 学习领域选择 -->
+  <div class="section-title">选择学习领域 ↓</div>
+  <div class="field-grid">
+    <a class="field-card" href="https://www.allhistory.com" target="_blank">
+      <span class="field-icon">🏛️</span>
+      <span class="field-name">历史/文化</span>
+      <span class="field-desc">全知识·文史天梯</span>
+    </a>
+    <a class="field-card" href="https://www.mbalib.com" target="_blank">
+      <span class="field-icon">💰</span>
+      <span class="field-name">经济/管理</span>
+      <span class="field-desc">MBA智库·经管百科</span>
+    </a>
+    <a class="field-card" href="https://baike.baidu.com/item/%E5%A5%B3%E6%80%A7%E4%B8%BB%E4%B9%89/144607" target="_blank">
+      <span class="field-icon">🚺</span>
+      <span class="field-name">女性主义</span>
+      <span class="field-desc">四波浪潮·四大流派</span>
+    </a>
+    <a class="field-card" href="https://github.com/jakegom/weighing-the-world" target="_blank">
+      <span class="field-icon">🧠</span>
+      <span class="field-name">思维模型</span>
+      <span class="field-desc">27张卡片·跨学科</span>
+    </a>
+  </div>
+  
+  <!-- 运动表单 -->
+  <div class="form-container" id="workoutForm">
+    <div class="form-group">
+      <label>体重 (kg)</label>
+      <input type="number" id="weight" placeholder="例如 65" step="0.1">
+    </div>
+    <div class="form-group">
+      <label>腰围 (cm)</label>
+      <input type="number" id="waist" placeholder="例如 80" step="0.1">
+    </div>
+    <div class="form-group">
+      <label>今天状态 (1-5分，5分最累)</label>
+      <input type="number" id="energy" placeholder="例如 3" min="1" max="5">
+    </div>
+    <div class="form-group">
+      <label>可用运动时长 (分钟)</label>
+      <input type="number" id="duration" placeholder="例如 30" min="5">
+    </div>
+    <div class="form-group">
+      <label>当前阶段</label>
+      <select id="stage">
+        <option value="新手">新手（刚开始运动，以低强度为主）</option>
+        <option value="适应" selected>适应（已有一定基础，可增加强度）</option>
+        <option value="提升">提升（体能较好，可挑战更高强度）</option>
+      </select>
+    </div>
+    <button class="btn-submit" id="generatePlanBtn">生成今日方案</button>
+    <p class="tip" style="margin-top:10px;">点击后自动打开元宝，点"发送"获取方案</p>
+  </div>
+  
+  <!-- 运动日志 -->
+  <div class="log-section">
+    <div class="log-header">
+      <span class="log-title">📊 我的运动日志</span>
+      <button class="log-clear" id="clearLogBtn">清空记录</button>
+    </div>
+    <ul class="log-list" id="logList">
+      <li class="no-log">还没有运动记录，开始第一次运动吧！</li>
+    </ul>
+  </div>
+  
+  <p class="footer">
+    每天一点，构建知识体系 · 循序渐进，见证身体变化<br>
+    建议：每个阶段坚持 2-4 周再升阶
+  </p>
+
+  <script>
+    // ---------- 运动日志管理 ----------
+    function loadLogs() {
+      try {
+        var logs = JSON.parse(localStorage.getItem('workout_logs') || '[]');
+        return logs;
+      } catch(e) { return []; }
+    }
+    function saveLogs(logs) {
+      localStorage.setItem('workout_logs', JSON.stringify(logs));
+    }
+    function renderLogs() {
+      var logs = loadLogs();
+      var listEl = document.getElementById('logList');
+      if (logs.length === 0) {
+        listEl.innerHTML = '<li class="no-log">还没有运动记录，开始第一次运动吧！</li>';
+        return;
+      }
+      // 显示最近 10 条
+      var recent = logs.slice(-10).reverse();
+      var html = '';
+      for (var i = 0; i < recent.length; i++) {
+        var item = recent[i];
+        html += '<li class="log-item">';
+        html += '<strong>' + item.date + '</strong><br>';
+        html += '体重 ' + item.weight + 'kg · 腰围 ' + item.waist + 'cm · 状态 ' + item.energy + '/5 · ';
+        html += item.duration + '分钟 · 阶段：' + item.stage;
+        html += '</li>';
+      }
+      listEl.innerHTML = html;
+    }
+    function addLog(weight, waist, energy, duration, stage) {
+      var logs = loadLogs();
+      var now = new Date();
+      var dateStr = now.getFullYear() + '-' + 
+                    String(now.getMonth()+1).padStart(2,'0') + '-' + 
+                    String(now.getDate()).padStart(2,'0') + ' ' +
+                    String(now.getHours()).padStart(2,'0') + ':' +
+                    String(now.getMinutes()).padStart(2,'0');
+      logs.push({
+        date: dateStr,
+        weight: weight,
+        waist: waist,
+        energy: energy,
+        duration: duration,
+        stage: stage
+      });
+      saveLogs(logs);
+      renderLogs();
+    }
+    function clearLogs() {
+      if (confirm('确认清空所有运动记录？')) {
+        localStorage.removeItem('workout_logs');
+        renderLogs();
+      }
+    }
+    document.getElementById('clearLogBtn').addEventListener('click', clearLogs);
+
+    // ---------- 运动表单 ----------
+    document.getElementById('showFormBtn').addEventListener('click', function() {
+      var form = document.getElementById('workoutForm');
+      form.classList.toggle('show');
+      if (form.classList.contains('show')) {
+        setTimeout(function() {
+          form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+      }
+    });
+
+    document.getElementById('generatePlanBtn').addEventListener('click', function() {
+      var weight = document.getElementById('weight').value.trim();
+      var waist = document.getElementById('waist').value.trim();
+      var energy = document.getElementById('energy').value.trim();
+      var duration = document.getElementById('duration').value.trim();
+      var stage = document.getElementById('stage').value;
+
+      if (!weight || !waist || !energy || !duration) {
+        alert('请完整填写体重、腰围、状态和时长！');
+        return;
+      }
+
+      // 记录本次运动
+      addLog(weight, waist, energy, duration, stage);
+
+      // 根据阶段调整提示词
+      var stageDesc = '';
+      if (stage === '新手') {
+        stageDesc = '我是运动新手，刚开始锻炼，请给我最低强度、最基础的跟练方案，动作要简单易学，全程无跑跳，以站立动作为主。';
+      } else if (stage === '适应') {
+        stageDesc = '我已经有一定运动基础，可以接受中等强度的跟练，但仍需避免跑跳，以低冲击有氧和力量训练为主。';
+      } else if (stage === '提升') {
+        stageDesc = '我体能较好，可以接受较高强度的训练，但仍需注意膝盖保护，避免剧烈跑跳，可以选择高强度间歇的低冲击变式。';
+      }
+
+      var promptText = '我今天体重' + weight + 'kg，腰围' + waist + 'cm，感觉状态' + energy + '分（1-5分，5分最累），有' + duration + '分钟时间运动。' + stageDesc + '请给我推荐今天的跟练方案，要求：\n1. 按“热身+主训练+拉伸”分配，拉伸至少占5分钟。\n2. 总时长要严格匹配' + duration + '分钟。\n3. 提供2-3个B站跟练视频的搜索关键词（如“无跑跳燃脂站立”“帕梅拉低冲击”“Jo姐踏步有氧”等），每个视频标注建议时长。\n4. 如果是新手，动作要简单、重复性高；如果是提升阶段，可以加入更多变式和组合。';
+
+      var url = 'https://yuanbao.tencent.com/?prompt=' + encodeURIComponent(promptText);
+      window.open(url, '_blank');
+    });
+
+    // 初始化渲染日志
+    renderLogs();
   </script>
 </body>
 </html>
